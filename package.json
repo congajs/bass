@@ -1,0 +1,34 @@
+{
+  "name": "bass",
+  "version": "0.0.1",
+  "description": "Object Document Manager for Node.js",
+  "directories": {
+    "test": "test"
+  },
+  "main": "./lib/bass.js",
+  "scripts": {
+    "test": "mocha test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/congajs/bass.git"
+  },
+  "keywords": [
+    "orm",
+    "odm"
+  ],
+  "author": "Marc Roulias",
+  "license": "MIT",
+  "dependencies": {
+    "async": "0.2.8",
+    "conga-annotations": "0.0.2",
+    "lodash": "*",
+    "q":"0.9.4",
+    "sort-component": "0.1.0"
+  },
+  "devDependencies": {
+     "mocha": "1.9.0",
+     "should": "1.2.2"
+  },
+  "readmeFilename": "README.md"
+}
