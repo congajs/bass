@@ -1,6 +1,6 @@
 {
   "name": "bass",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Object Document Manager for Node.js",
   "directories": {
     "test": "test"
@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "async": "0.2.8",
-    "conga-annotations": "0.0.4",
+    "conga-annotations": "0.0.6",
     "lodash": "*",
     "q":"0.9.4",
     "sort-component": "0.1.0"

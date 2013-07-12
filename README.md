@@ -59,63 +59,63 @@ The following configuration is an example using the bass-mongodb adapter.
 #### Create document classes
 
     /**
-     * @Document(collection="users", repository="../repository/user")
+     * @Bass:Document(collection="users", repository="../repository/user")
      */
     function User(){};
 
     User.prototype = {
 
         /**
-         * @Id
-         * @Field(type="ObjectID", name="_id")
+         * @Bass:Id
+         * @Bass:Field(type="ObjectID", name="_id")
          */
         id: null,
         
         /**
-         * @Field(type="string", name="name")
+         * @Bass:Field(type="string", name="name")
          */
         name: null,
 
         /**
-         * @Field(type="String", name="email")
+         * @Bass:Field(type="String", name="email")
          */
         email: null,
 
         /**
-         * @Field(type="Object", name="preferences")
+         * @Bass:Field(type="Object", name="preferences")
          */
         preferences: {},
         
         /**
-         * @Field(type="Boolean", name="is_active")
+         * @Bass:Field(type="Boolean", name="is_active")
          */
         isActive: true,
 
         /**
-         * @OneToMany(document="Post", orderBy="id")
+         * @Bass:OneToMany(document="Post", orderBy="id")
          */
         posts: [],
 
         /**
-         * @OneToOne(document="Profile", name="profile_id")
+         * @Bass:OneToOne(document="Profile", name="profile_id")
          * @type {Profile}
          */
         profile: null,
 
         /**
-         * @Version
-         * @Field(type="Number", name="version")
+         * @Bass:Version
+         * @Bass:Field(type="Number", name="version")
          */
         version: 0,
 
         /**
-         * @CreatedAt
+         * @Bass:CreatedAt
          * @Field(type="Date", name="created_at")
          */
         createdAt: null,
 
         /**
-         * @UpdatedAt
+         * @Bass:UpdatedAt
          * @Field(type="Date", name="updated_at")
          */
         updatedAt: null,
