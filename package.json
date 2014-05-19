@@ -18,6 +18,12 @@
     "odm"
   ],
   "author": "Marc Roulias",
+  "contributors": [
+	  {
+		  "name": "Anthony Matarazzo" ,
+		  "email": "email@anthonymatarazzo.com"
+	  }
+  ],
   "license": "MIT",
   "dependencies": {
     "async": "0.2.8",
