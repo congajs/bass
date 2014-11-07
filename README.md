@@ -56,6 +56,14 @@ The following configuration is an example using the bass-mongodb adapter.
         }
     };
 
+    ##### Additional Initializers:
+
+    ###### poolSize: The number of connections in the pool.
+    ###### poolName: String value used to create seperate connection pools within a single bass instance.
+    ###### auto-connect: 0 | 1 - If 1 a default connection is created when the bass manager is created.
+    ###### auto-reconnect: If the a connection in the pool is lost the driver ensures that a replacement is created.
+    
+
 #### Create document classes
 
     /**
