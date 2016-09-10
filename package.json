@@ -27,7 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "async": "0.2.8",
-    "conga-annotations": "1.0.0",
+    "conga-annotations": "latest",
     "lodash": "*",
     "q":"0.9.4"
   },
