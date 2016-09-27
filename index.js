@@ -1,5 +1,11 @@
 module.exports = {
-	Bass: require('./lib/bass.js')
+	AdapterMapper: require('./lib/adapter-mapper'),
+	Bass: require('./lib/bass.js'),
+	Connection: require('./lib/connection'),
+	Repository: require('./lib/repository'),
+	Query: require('./lib/query'),
+	QueryResult: require('./lib/query-result'),
+	IdStrategy: require('./lib/id-strategy')
 };
 
 // /**
