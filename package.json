@@ -19,10 +19,10 @@
   ],
   "author": "Marc Roulias",
   "contributors": [
-	  {
-		  "name": "Anthony Matarazzo" ,
-		  "email": "email@anthonymatarazzo.com"
-	  }
+    {
+      "name": "Anthony Matarazzo",
+      "email": "email@anthonymatarazzo.com"
+    }
   ],
   "license": "MIT",
   "dependencies": {
@@ -32,8 +32,8 @@
     "lodash": "*"
   },
   "devDependencies": {
-     "mocha": "1.9.0",
-     "should": "1.2.2"
+    "mocha": "1.9.0",
+    "should": "1.2.2"
   },
   "readmeFilename": "README.md"
 }
