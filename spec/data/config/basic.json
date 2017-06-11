@@ -1,0 +1,23 @@
+{
+    "adapters": [
+        "bass-nedb"
+    ],
+
+    "logging": {
+
+    },
+
+    "connections": {
+        "default": {
+
+        }
+    },
+
+    "managers": {
+        "default": {
+            "documents": [
+
+            ]
+        }
+    }
+}
