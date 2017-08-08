@@ -6,7 +6,7 @@ const originalLoad = Module._load;
 Module._load = function (request, parent) {
 
     if (request === 'bass') {
-        return require('../index');
+        return require(path.resolve('node_modules/bass/index'));
     }
 
     return originalLoad.apply(this, arguments);
@@ -38,7 +38,7 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
 
         bass = new Bass(Object.assign({
             adapters: [
-                path.join(__dirname, '..', '..', adapter)
+                path.resolve('')
             ],
 
             logging: { logger },
