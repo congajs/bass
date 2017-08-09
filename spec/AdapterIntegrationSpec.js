@@ -68,11 +68,7 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
                 session = bass.createSession();
                 manager = session.getManager('default');
 
-                // clean the collection
-                manager.dropCollection('User').then(() => done()).catch(err => {
-                    console.error(err);
-                    manager.removeBy('User', {}).then(() => done());
-                });
+                done();
 
             }, 1500);
 
@@ -87,19 +83,25 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
             // remove any left over users
             manager.removeBy('User', {}).then(() => {
 
-                // insert the documents
-                for (let data of testData) {
-                    const document = manager.createDocument('User', data);
-                    manager.persist(document);
-                }
+                manager.findCountBy('User', {}).then(num => {
 
-                manager.flush().then(() => {
+                    expect(num).toEqual(0);
 
-                    manager.findCountBy('User', {}).then(num => {
+                    // insert the documents
+                    for (let data of testData) {
+                        const document = manager.createDocument('User', data);
+                        manager.persist(document);
+                    }
 
-                        expect(num).toEqual(testData.length);
+                    manager.flush().then(() => {
 
-                        done();
+                        manager.findCountBy('User', {}).then(num => {
+
+                            expect(num).toEqual(testData.length);
+
+                            done();
+
+                        });
 
                     });
 
