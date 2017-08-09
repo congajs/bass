@@ -159,26 +159,31 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
 
         describe('', () => {
 
-            it('should support remove by with empty criteria', done => {
+            it('should support find count by', done => {
+
+                manager.findCountBy('User', {}).then(num => {
+                    expect(num).toMatch(/^\d+$/);
+                    done();
+                }).catch(err => {
+                    expect(err).toBeUndefined();
+                    done();
+                });
+            });
+
+            it('should remove by with empty criteria', done => {
 
                 insertMockData().then(() => {
 
                     manager.removeBy('User', {}).then(() => {
-
                         manager.findCountBy('User', {}).then(num => {
-
                             expect(num).toEqual(0);
-
                             done();
-
                         });
-
                     });
-
                 });
             });
 
-            it('should support remove by with criteria', done => {
+            it('should remove by with criteria', done => {
 
                 const data = testData[0];
                 const user = manager.createDocument('User', data);
@@ -199,7 +204,7 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
                 });
             });
 
-            it('should support find by with empty criteria and sort', done => {
+            it('should find by with empty criteria and sort', done => {
 
                 insertMockData().then(() => {
 
@@ -214,14 +219,29 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
                 });
             });
 
-            it('should find by with criteria and sort', done => {
+            it('should find by with criteria', done => {
 
                 manager.findBy('User', {
-                    email: {'$in': [testData[2].email, testData[0].email]}
+                    email: testData[2].email,
+                    name: testData[2].name
                 }).then(users => {
+
+                    expect(users.length).toBeGreaterThan(0);
+                    expect(users[0]).toEqual(jasmine.objectContaining(testData[2]));
+                    done();
+
+                });
+            });
+
+            it('should find by with criteria, using $in, and sort', done => {
+
+                manager.findBy('User',
+                    {email: {'$in': [testData[3].email, testData[2].email]}},
+                    {name: 1}
+                ).then(users => {
                     expect(users.length).toEqual(2);
-                    expect(users[0]).toEqual(jasmine.objectContaining(testData[0]));
-                    expect(users[1]).toEqual(jasmine.objectContaining(testData[2]));
+                    expect(users[0]).toEqual(jasmine.objectContaining(testData[2]));
+                    expect(users[1]).toEqual(jasmine.objectContaining(testData[3]));
                     done();
                 });
             });
@@ -230,61 +250,63 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
 
                 // NOTE: mock data is inserted from above command
 
-                let promises = [];
+                clearMockData().then(() => insertMockData().then(() => {
+                    let promises = [];
 
-                // validate the records one by one
-                for (let [idx, data] of testData.entries()) {
-                    promises.push(
-                        // find the document by criteria
-                        manager.findOneBy('User', {
-                            email: data.email,
-                            name: data.name
-                        }).then(document => {
-                            expect(document).toEqual(jasmine.objectContaining({
+                    // validate the records one by one
+                    for (let [idx, data] of testData.entries()) {
+                        promises.push(
+                            // find the document by criteria
+                            manager.findOneBy('User', {
                                 email: data.email,
                                 name: data.name
-                            }));
-                            // update the document
-                            document.email = 'update+' + (idx + 1) + '@foo.com';
-                            document.name = 'Update ' + (idx + 1);
-                            manager.persist(document);
-                            return manager.flush(document).then(() => {
+                            }).then(document => {
+                                expect(document).toEqual(jasmine.objectContaining({
+                                    email: data.email,
+                                    name: data.name
+                                }));
+                                // update the document
+                                document.email = 'update+' + (idx + 1) + '@foo.com';
+                                document.name = 'Update ' + (idx + 1);
+                                manager.persist(document);
+                                return manager.flush(document).then(() => {
 
-                                // find the document by id
-                                return manager.find('User', document.id).then(found => {
-                                    expect(found).toEqual(jasmine.objectContaining({
-                                        email: document.email,
-                                        name: document.name
-                                    }));
+                                    // find the document by id
+                                    return manager.find('User', document.id).then(found => {
+                                        expect(found).toEqual(jasmine.objectContaining({
+                                            email: document.email,
+                                            name: document.name
+                                        }));
 
-                                    // remove the document
-                                    manager.remove(document);
-                                    return manager.flush(document);
+                                        // remove the document
+                                        manager.remove(document);
+                                        return manager.flush(document);
+                                    })
                                 })
                             })
-                        })
-                    );
-                }
+                        );
+                    }
 
-                Promise.all(promises).then(data => {
+                    Promise.all(promises).then(data => {
 
-                    Promise.all([
-                        manager.findBy('User', {}).then(documents => {
-                            expect(documents.length).toEqual(0);
-                        }),
-                        manager.findCountBy('User', {}).then(num => {
-                            expect(num).toEqual(0);
-                        })
-                    ]).then(() => done());
+                        Promise.all([
+                            manager.findBy('User', {}).then(documents => {
+                                expect(documents.length).toEqual(0);
+                            }),
+                            manager.findCountBy('User', {}).then(num => {
+                                expect(num).toEqual(0);
+                            })
+                        ]).then(() => done());
 
-                });
+                    });
+                }));
             });
 
-            it('should support update by', done => {
+            it('should update by', done => {
 
                 insertMockData().then(() => {
 
-                    const data = testData[2];
+                    const data = testData[3];
                     manager.updateBy(
                         'User',
                         {email: data.email, name: data.name},
@@ -300,10 +322,11 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
                                 expect(document).toBeFalsy();
                             }),
 
-                            manager.findOneBy(
-                                'User',
-                                {email: 'update-by-user@foo.com', name: 'Update By User'}
-                            ).then(document => {
+                            manager.findOneBy('User', {
+                                email: 'update-by-user@foo.com',
+                                name: 'Update By User'
+                            }).then(document => {
+
                                 expect(document).toEqual(jasmine.objectContaining({
                                     email: 'update-by-user@foo.com',
                                     name: 'Update By User'
