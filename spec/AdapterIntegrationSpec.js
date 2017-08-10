@@ -33,6 +33,9 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
     let bass;
     let session;
     let manager;
+    let metadata;
+    let idField;
+    let idProp;
 
     const insertMockData = (num = testData.length, offset = 0) => {
         let i;
@@ -48,6 +51,11 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
     };
 
     beforeEach(done => {
+
+        if (bass) {
+            done();
+            return;
+        }
 
         bass = new Bass(Object.assign({
             adapters: [
@@ -80,6 +88,9 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
 
                 session = bass.createSession();
                 manager = session.getManager('default');
+                metadata = manager.registry.getMetadataByName('User');
+                idField = metadata.getIdFieldName();
+                idProp = metadata.getIdPropertyName();
 
                 done();
 
@@ -103,9 +114,9 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
 
                 manager.persist(user);
                 manager.flush(user).then(() => {
-                    expect(user.id).toBeTruthy();
-                    expect(user.id.length).toBeGreaterThan(0);
-                    documentId = user.id;
+                    expect(user[idProp]).toBeTruthy();
+                    expect(user[idProp].length).toBeGreaterThan(0);
+                    documentId = user[idProp];
                     document = user;
                     done();
                 });
