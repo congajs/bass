@@ -50,12 +50,7 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
         return manager.removeBy('User', {});
     };
 
-    beforeEach(done => {
-
-        if (bass) {
-            done();
-            return;
-        }
+    beforeAll(done => {
 
         bass = new Bass(Object.assign({
             adapters: [
