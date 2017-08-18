@@ -1,6 +1,6 @@
 {
   "name": "bass",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Object Document Manager for Node.js",
   "directories": {
     "test": "test"
@@ -34,8 +34,7 @@
   "devDependencies": {
     "jasmine": "^2.6.0",
     "request": "^2.81.0",
-    "bass-nedb": "latest",
-    "log4js": "1.1.1"
+    "bass-nedb": "latest"
   },
   "readmeFilename": "README.md"
 }

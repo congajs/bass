@@ -14,8 +14,6 @@ Module._load = function (request, parent) {
 
 const { Bass } = require('bass');
 
-const logger = require('log4js').getLogger();
-
 process.on('unhandledRejection', (reason, p) => {
     console.error(p, reason);
     throw reason;
@@ -56,8 +54,6 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
             adapters: [
                 path.resolve('')
             ],
-
-            logging: { logger },
 
             connections: {
                 default: {
