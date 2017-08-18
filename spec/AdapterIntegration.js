@@ -78,18 +78,13 @@ module.exports = (adapter = 'bass-nedb', config = {}) => () => {
 
         bass.init().then(() => {
 
-            // NOTE: needed until we can respond to on-connect
-            setTimeout(() => {
+            session = bass.createSession();
+            manager = session.getManager('default');
+            metadata = manager.registry.getMetadataByName('User');
+            idField = metadata.getIdFieldName();
+            idProp = metadata.getIdPropertyName();
 
-                session = bass.createSession();
-                manager = session.getManager('default');
-                metadata = manager.registry.getMetadataByName('User');
-                idField = metadata.getIdFieldName();
-                idProp = metadata.getIdPropertyName();
-
-                done();
-
-            }, 1500);
+            done();
 
         });
 
