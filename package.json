@@ -1,6 +1,6 @@
 {
   "name": "bass",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "Object Document Manager for Node.js",
   "directories": {
     "test": "test"
