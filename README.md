@@ -7,7 +7,7 @@ of objects across different NoSQL engines.
 
 It is based on Entity Manager persistence libraries such as Doctrine2, Hibernate, Java JPA.
 
-The object representations of data are mapped using the [conga-annotations](https://github.com/congajs/conga-annotations) library.
+The object representations of data are mapped using the [@conga/annotations](https://github.com/congajs/conga-annotations) library.
 
 ## Installation
 

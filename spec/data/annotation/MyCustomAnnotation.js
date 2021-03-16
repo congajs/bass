@@ -1,5 +1,5 @@
 // core libs
-const Annotation = require('conga-annotations').Annotation;
+const Annotation = require('@conga/annotations').Annotation;
 
 /**
  * The @MyCustomAnnotation is just a fake annotation to make sure it can
